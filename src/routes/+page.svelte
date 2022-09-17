@@ -121,17 +121,11 @@
 	}
 	function removeRecipeTopping(fromPizza: pizza, removeTopping: string) {
 		fromPizza.toppings = fromPizza.toppings.filter((topping) => topping !== removeTopping);
-		if (fromPizza.toppings.length == 0) {
+		if (fromPizza.toppings.length === 0) {
+			console.log(fromPizza.toppings.length);
 			Recipes = Recipes.filter((data) => data.name !== fromPizza.name);
 		}
-		Recipes = [
-			...Recipes,
-			{
-				id: Object.keys(Recipes).length + 1,
-				name: pizzaName,
-				toppings: toppingList
-			}
-		];
+		Recipes = Recipes;
 	}
 </script>
 

@@ -3,10 +3,18 @@
 	let name: string = '';
 	let pizzaName: string = '';
 	let toppingList: string[] = [];
+	/**
+	 * using typrscript to define unique types made it easier to keep track of everything.
+	 */
 	type pizza = {
 		id: number;
 		name: string;
 		toppings: string[];
+	};
+	type topping = {
+		id: number;
+		name: string;
+		onPizza: boolean;
 	};
 	let Recipes: pizza[] = [
 		{
@@ -35,7 +43,7 @@
 			toppings: ['pineapple', 'sauce']
 		}
 	];
-	let toppings: { id: number; name: string; onPizza: boolean }[] = [
+	let toppings: topping[] = [
 		{
 			id: 1,
 			name: 'pepperoni',
@@ -57,6 +65,11 @@
 			onPizza: true
 		}
 	];
+	/**
+	 * Svelte reactivity is triggered by assignments so just updating the array was not enough,
+	 * this way i can update and get the reactivity for the svelte each template to render the new object.
+	 * I used this technique several times to get reactivity to work correctly.
+	 */
 	function addTopping() {
 		if (!toppings.find((element) => element.name.toLowerCase() == name.toLowerCase())) {
 			toppings = [
@@ -73,22 +86,16 @@
 			name = '';
 		}
 	}
+	/**
+	 * The use of filter also let me leverage the reactivity of svelte to get it to update the changes for the user.
+	 * Since filter is just creating a copy of the list w/o the item that i want in there it worked well.
+	 *
+	 */
 	function removeTopping(remove: any) {
 		toppings = toppings.filter((topping) => topping !== remove);
 	}
 	function removePizza(remove: any) {
 		Recipes = Recipes.filter((pizza) => pizza.name !== remove);
-	}
-	function sameTopppings(x: string[], y: string[]) {
-		if (x === y) {
-			return true;
-		}
-		if (x == null || y == null) {
-			return false;
-		}
-		if (x.length !== y.length) {
-			return false;
-		}
 	}
 	function savePizza() {
 		toppings.forEach((topping) => {
@@ -125,16 +132,7 @@
 				toppings: toppingList
 			}
 		];
-		// toppings = toppings.filter((topping) => topping !== remove);
 	}
-	// function addPizza(newPizza: typeof Recipes) {
-	//     let potentialRecipe  = newPizza.toppings
-	//     Recipes.forEach(pizza => {
-	//         if(sameTopppings(pizza.toppings))
-
-	//     });
-	// }
-	// let toppings = ['pepperoni', 'sauce', 'cheese', 'pineapple'];
 </script>
 
 <div class="grid grid-cols-3 justify-center h-full">
